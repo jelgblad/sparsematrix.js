@@ -1,2 +1,2 @@
 # sparsematrix.js
-Javascript sparse matrix implementation for Node.js and browser
+Multidimensional sparse matrix Javascript implementation for Node.js and browser
