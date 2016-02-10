@@ -5,6 +5,17 @@ var _getIndex = function (dimensions, vector) {
     if (!Array.isArray(vector)) {
         throw new TypeError('Array expected');
     }
+
+    if (vector.length !== dimensions.length) {
+        throw new Error('Wrong number of dimensions in vector (' + vector.length + ' expected ' + dimensions.length + ')');
+    }
+
+    for (var i = 0; i < dimensions.length; i++) {
+        if (vector[i] >= dimensions[i] || vector[i] < 0) {
+            throw new RangeError('Coordinates are out of range');
+        }
+    }
+
     /// TODO: Check if array elements is positive numbers
 		
     // 		var dimensions3 = [2, 2, 2, 2];

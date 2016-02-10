@@ -4,46 +4,52 @@ sparsematrix.SparseMatrix = function (dimensions) {
 	* dimensions				Array representing each dimension size
 	*/
 	
-    // Verify dimensions
+    // Verify dimensions: is array
     if (!Array.isArray(dimensions)) {
         throw new TypeError('Array expected');
     }
-    /// TODO: Check if array elements is positive numbers
+    
+    // Verify dimensions: positive numbers
+    for (var i = 0; i < dimensions.length; i++) {
+        if (dimensions[i] < 0) {
+            throw new RangeError('Dimensions are out of range');
+        }
+    }
 	
     // Store data on this object
     var _data = {};
 	
     // Get value
-    this.get = function (vector) {
+    this.get = function (vector, copyObject) {
 
-        var index = this.getIndex(vector);
-        return this.getByIndex(index);
+        var index = vector;
+        
+        // Check if vector array
+        if (Array.isArray(vector)) {
+            index = this.getIndex(vector);
+        }
+        else {
+            // Verify index
+            if (index >= _getSize(dimensions)) {
+                throw new RangeError('Index is out of range');
+            }
+        }
+
+        var data = _data[index];
+        
+        // Copy if object
+        if (typeof data === 'object' && copyObject) {
+            data = JSON.parse(JSON.stringify(data));
+        }
+
+        return data;
     };
 	
     // Get value as number if undefined
     this.getAsNumber = function (vector) {
-
-        var index = this.getIndex(vector);
-        return this.getAsNumberByIndex(index);
-    };
-	
-    // Set value
-    this.set = function (vector, value) {
-
-        var index = this.getIndex(vector);
-        return this.setByIndex(index, value);
-    };
-	
-    // Get value by data index
-    this.getByIndex = function (index) {
-        return _data[index];
-    };
-	
-    // Get value by data index as number if undefined
-    this.getAsNumberByIndex = function (index) {
-
-        var data = this.getByIndex(index);
-
+        
+        var data = this.get(vector);
+        
         if (data === undefined) {
             data = 0;
         }
@@ -51,10 +57,21 @@ sparsematrix.SparseMatrix = function (dimensions) {
         return data;
     };
 	
-    // Set value by data index
-    this.setByIndex = function (index, value) {
-		
-        // _data[index] = value;
+    // Set value
+    this.set = function (vector, value) {
+
+        var index = vector;
+        
+        // Check if vector array
+        if (Array.isArray(vector)) {
+            index = this.getIndex(vector);
+        }
+        else {
+            // Verify index
+            if (index >= _getSize(dimensions)) {
+                throw new RangeError('Index is out of range');
+            }
+        }
 		
         // Removes data on index if value is false, 0, null or undefined
         if (value === false || value === 0 || value === null || undefined) {
@@ -65,26 +82,6 @@ sparsematrix.SparseMatrix = function (dimensions) {
             _data[index] = value;
         }
     };
-	
-    // 	// Set all values in column
-    // 	this.setColumn = function (col, value) {
-    // 		
-    // 		// Can be optimized?
-    // 		
-    // 		for (var i = 0; i < rows; i++) {
-    // 			this.set(col, i, value);
-    // 		}
-    // 	};
-    // 	
-    // 	// Set value
-    // 	this.setRow = function (row, value) {
-    // 
-    // 		// Can be optimized?
-    // 		
-    // 		for (var i = 0; i < columns; i++) {
-    // 			this.set(i, row, value);
-    // 		}
-    // 	};
 	
     // Get index
     this.getIndex = function (vector) {

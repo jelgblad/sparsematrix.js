@@ -6,6 +6,10 @@ var replace = require('gulp-replace');
 
 var fs = require('fs');
 
+gulp.task('watch', function () {
+    gulp.watch('./src/*.js', ['build']);
+});
+
 gulp.task('build', ['concat', 'minify']);
 
 gulp.task('concat', function () {
