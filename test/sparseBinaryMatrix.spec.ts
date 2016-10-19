@@ -142,10 +142,12 @@ describe('SparseBinaryMatrix', function () {
 
         it('should merge matrix(arg) into matrix(this)', function () {
 
-            expect(matrix1.get([1, 1])).to.equal(false);
-            expect(matrix1.get([1, 3])).to.equal(false);
-
+            expect(matrix1.get([0, 1])).to.equal(true);
+            expect(matrix1.get([0, 2])).to.equal(false);
             expect(matrix1.get([0, 3])).to.equal(true);
+
+            expect(matrix1.get([1, 1])).to.equal(false);
+            expect(matrix1.get([1, 2])).to.equal(true);
         });
     });
 });

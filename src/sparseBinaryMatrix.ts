@@ -80,15 +80,12 @@ export class SparseBinaryMatrix extends SparseMatrixBase {
     // Merge array into this array
     public mergeFrom(matrix: SparseBinaryMatrix): any {
 
-        var thisSize = this.getSize();
-        var mergingSize = matrix.getSize();
+        var thisIndices = this.getIndices();
+        var mergingIndices = matrix.getIndices();
 
-        for (var i = 0; i < mergingSize; i++) {
+        for (var i = 0; i < mergingIndices.length; i++) {
 
-            if (matrix.get(i) === false) continue;
-
-            // Set value
-            this.set(i, true);
+            this.set(mergingIndices[i], true);
         }
     }
 

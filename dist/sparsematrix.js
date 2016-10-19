@@ -215,12 +215,10 @@ var SparseBinaryMatrix = (function (_super) {
         }
     };
     SparseBinaryMatrix.prototype.mergeFrom = function (matrix) {
-        var thisSize = this.getSize();
-        var mergingSize = matrix.getSize();
-        for (var i = 0; i < mergingSize; i++) {
-            if (matrix.get(i) === false)
-                continue;
-            this.set(i, true);
+        var thisIndices = this.getIndices();
+        var mergingIndices = matrix.getIndices();
+        for (var i = 0; i < mergingIndices.length; i++) {
+            this.set(mergingIndices[i], true);
         }
     };
     SparseBinaryMatrix.prototype.getIndices = function () {
