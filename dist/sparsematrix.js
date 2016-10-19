@@ -215,7 +215,9 @@ var SparseBinaryMatrix = (function (_super) {
         }
     };
     SparseBinaryMatrix.prototype.mergeFrom = function (matrix) {
-        var thisIndices = this.getIndices();
+        if (this.getSign() !== matrix.getSign()) {
+            throw new Error('SparseMatrix: ' + 'Can\'t merge matrices with different signatures');
+        }
         var mergingIndices = matrix.getIndices();
         for (var i = 0; i < mergingIndices.length; i++) {
             this.set(mergingIndices[i], true);
@@ -301,6 +303,9 @@ var SparseMatrixBase = (function () {
     };
     SparseMatrixBase.prototype.mergeFrom = function (matrix, overwrite) {
         if (overwrite === void 0) { overwrite = false; }
+        if (this.getSign() !== matrix.getSign()) {
+            throw new Error('SparseMatrix: ' + 'Can\'t merge matrices with different signatures');
+        }
         var thisSize = this.getSize();
         var mergingSize = matrix.getSize();
         for (var i = 0; i < mergingSize; i++) {
@@ -312,6 +317,17 @@ var SparseMatrixBase = (function () {
                 continue;
             this.set(i, matrix.get(i));
         }
+    };
+    SparseMatrixBase.prototype.getSign = function () {
+        var sign = '';
+        sign += this.dimensions.length;
+        sign += '#';
+        for (var i = 0; i < this.dimensions.length; i++) {
+            sign += this.dimensions[i];
+        }
+        sign += '#';
+        sign += this.getSize();
+        return sign;
     };
     return SparseMatrixBase;
 }());

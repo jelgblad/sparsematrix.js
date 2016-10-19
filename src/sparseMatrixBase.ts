@@ -119,6 +119,10 @@ export abstract class SparseMatrixBase {
 
     // Merge array into this array
     public mergeFrom(matrix: SparseMatrixBase, overwrite: boolean = false): any {
+        
+        if (this.getSign() !== matrix.getSign()) {
+            throw new Error('SparseMatrix: ' + 'Can\'t merge matrices with different signatures');
+        }
 
         var thisSize = this.getSize();
         var mergingSize = matrix.getSize();
@@ -134,6 +138,27 @@ export abstract class SparseMatrixBase {
             // Set value
             this.set(i, matrix.get(i));
         }
+    }
+
+
+
+    public getSign(): string {
+
+        var sign: string = '';
+
+        sign += this.dimensions.length;
+
+        sign += '#';
+
+        for (var i = 0; i < this.dimensions.length; i++) {
+            sign += this.dimensions[i];
+        }
+
+        sign += '#';
+
+        sign += this.getSize();
+
+        return sign;
     }
 
 

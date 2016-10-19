@@ -80,7 +80,10 @@ export class SparseBinaryMatrix extends SparseMatrixBase {
     // Merge array into this array
     public mergeFrom(matrix: SparseBinaryMatrix): any {
 
-        var thisIndices = this.getIndices();
+        if (this.getSign() !== matrix.getSign()) {
+            throw new Error('SparseMatrix: ' + 'Can\'t merge matrices with different signatures');
+        }
+
         var mergingIndices = matrix.getIndices();
 
         for (var i = 0; i < mergingIndices.length; i++) {
