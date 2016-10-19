@@ -39,3 +39,4 @@ node_modules
 *.js
 
 !module.js
+!dist/*
