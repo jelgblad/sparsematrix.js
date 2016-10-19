@@ -1,0 +1,39 @@
+{
+  "name": "sparsematrix",
+  "version": "0.1.0",
+  "description": "Multidimensional sparse matrix Javascript implementation for Node.js and browser",
+  "main": "./index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cjsc": "^1.0.9",
+    "mocha": "^3.1.2",
+    "typescript": "^2.0.3",
+    "uglify-js": "^2.7.3"
+  },
+  "scripts": {
+    "test": "mocha test",
+    "start": "npm run tsc:w",
+    "build": "npm run tsc && npm run cjsc && npm run minify && npm run test",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "cjsc": "cjsc module.js dist/sparsematrix.js",
+    "minify": "uglifyjs dist/sparsematrix.js -o dist/sparsematrix.min.js -m"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jelgblad/sparsematrix.js"
+  },
+  "keywords": [
+    "sparse",
+    "matrix",
+    "binary",
+    "node",
+    "browser"
+  ],
+  "author": "jelgblad",
+  "license": "MIT"
+}
