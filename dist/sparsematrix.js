@@ -94,30 +94,40 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var sparseMatrixBase_1 = _require( "src\\sparseMatrixBase.js" );
+/** SparseMatrix */
 var SparseMatrix = (function (_super) {
     __extends(SparseMatrix, _super);
     function SparseMatrix(dimensions) {
         _super.call(this, dimensions);
+        // Store data on this object
         this._data = {};
     }
+    /** Get value */
     SparseMatrix.prototype.get = function (vector, copyObject) {
         if (copyObject === void 0) { copyObject = false; }
         var index;
+        // Check if vector array
         if (Array.isArray(vector)) {
             index = this.getIndex(vector);
         }
         else {
             index = vector;
+            // Verify index
             if (index >= this.getSize() || index < 0) {
                 throw new RangeError('SparseMatrix: ' + 'Index is out of range');
             }
         }
         var data = this._data[index.toString()];
+        // Copy if object
         if (typeof data === 'object' && copyObject) {
             data = JSON.parse(JSON.stringify(data));
         }
         return data;
     };
+    /**
+    * Get value as number
+    * undefined is returned as 0
+    */
     SparseMatrix.prototype.getAsNumber = function (vector) {
         var data = this.get(vector);
         if (data === undefined) {
@@ -126,24 +136,30 @@ var SparseMatrix = (function (_super) {
         return data;
     };
     ;
+    /** Set value */
     SparseMatrix.prototype.set = function (vector, value) {
         var index;
+        // Check if vector array
         if (Array.isArray(vector)) {
             index = this.getIndex(vector);
         }
         else {
             index = vector;
+            // Verify index
             if (index >= this.getSize() || index < 0) {
                 throw new RangeError('SparseMatrix: ' + 'Index is out of range');
             }
         }
+        // Removes data on index if value is false, 0, null or undefined
         if (value === false || value === 0 || value === null || undefined) {
+            // _data.splice(index, 1);
             delete this._data[index.toString()];
         }
         else {
             this._data[index.toString()] = value;
         }
     };
+    /** Clear all values */
     SparseMatrix.prototype.clear = function () {
         this._data = [];
     };
@@ -166,19 +182,24 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var sparseMatrixBase_1 = _require( "src\\sparseMatrixBase.js" );
+/** SparseBinaryMatrix */
 var SparseBinaryMatrix = (function (_super) {
     __extends(SparseBinaryMatrix, _super);
     function SparseBinaryMatrix(dimensions) {
         _super.call(this, dimensions);
+        // Store indices of 'on' fields in this array
         this._data = [];
     }
+    /** Get value */
     SparseBinaryMatrix.prototype.get = function (vector) {
         var index;
+        // Check if vector array
         if (Array.isArray(vector)) {
             index = this.getIndex(vector);
         }
         else {
             index = vector;
+            // Verify index
             if (index >= this.getSize() || index < 0) {
                 throw new RangeError('SparseMatrix: ' + 'Index is out of range');
             }
@@ -191,13 +212,16 @@ var SparseBinaryMatrix = (function (_super) {
             return false;
         }
     };
+    /** Set value */
     SparseBinaryMatrix.prototype.set = function (vector, value) {
         var index;
+        // Check if vector array
         if (Array.isArray(vector)) {
             index = this.getIndex(vector);
         }
         else {
             index = vector;
+            // Verify index
             if (index >= this.getSize() || index < 0) {
                 throw new RangeError('SparseMatrix: ' + 'Index is out of range');
             }
@@ -214,6 +238,7 @@ var SparseBinaryMatrix = (function (_super) {
             }
         }
     };
+    /** Merge matrix into this matrix */
     SparseBinaryMatrix.prototype.mergeFrom = function (matrix) {
         if (this.getSign() !== matrix.getSign()) {
             throw new Error('SparseMatrix: ' + 'Can\'t merge matrices with different signatures');
@@ -223,9 +248,11 @@ var SparseBinaryMatrix = (function (_super) {
             this.set(mergingIndices[i], true);
         }
     };
+    /** Get indices of on 'bits' */
     SparseBinaryMatrix.prototype.getIndices = function () {
         return this._data;
     };
+    /** Clear all values */
     SparseBinaryMatrix.prototype.clear = function () {
         this._data = [];
     };
@@ -242,18 +269,25 @@ exports.SparseBinaryMatrix = SparseBinaryMatrix;
 
 _require.def( "src\\sparseMatrixBase.js", function( _require, exports, module, global ){
 "use strict";
+/** SparseMatrixBase */
 var SparseMatrixBase = (function () {
+    /**
+    * dimensions				Array representing each dimension size
+    */
     function SparseMatrixBase(dimensions) {
         this.dimensions = dimensions;
+        // Verify dimensions: is array
         if (!Array.isArray(dimensions)) {
             throw new TypeError('SparseMatrix: ' + 'Array expected');
         }
+        // Verify dimensions: positive numbers
         for (var i = 0; i < dimensions.length; i++) {
             if (dimensions[i] <= 0) {
                 throw new RangeError('SparseMatrix: ' + 'Dimensions are out of range');
             }
         }
     }
+    /** Get total number of available values */
     SparseMatrixBase.prototype.getSize = function () {
         var size = this.dimensions[0];
         for (var i = 1; i < this.dimensions.length; i++) {
@@ -261,7 +295,9 @@ var SparseMatrixBase = (function () {
         }
         return size;
     };
+    /** Get coordinates from data index */
     SparseMatrixBase.prototype.getCoordinates = function (index) {
+        // Verify index
         if (index >= this.getSize() || index < 0) {
             throw new RangeError('SparseMatrix: ' + 'Index is out of range');
         }
@@ -278,7 +314,9 @@ var SparseMatrixBase = (function () {
         vector.push(index);
         return vector;
     };
+    /** Get data index from coordinates */
     SparseMatrixBase.prototype.getIndex = function (vector) {
+        // Verify vector
         if (!Array.isArray(vector)) {
             throw new TypeError('SparseMatrix: ' + 'Array expected');
         }
@@ -290,6 +328,18 @@ var SparseMatrixBase = (function () {
                 throw new RangeError('SparseMatrix: ' + 'Coordinates are out of range');
             }
         }
+        /// TODO: Check if array elements is positive numbers
+        // 		var dimensions3 = [2, 2, 2, 2];
+        // 		var vector3 = [1, 1, 1, 1];
+        // 
+        // 		var index3 = 0;
+        // 
+        // 		index3 += vector2[0] * dimensions3[1] * dimensions3[2] * dimensions3[3];
+        // 		index3 += vector2[1] * dimensions3[2] * dimensions3[3];
+        // 		index3 += vector3[2] * dimensions3[3];
+        // 		index3 += vector3[3];
+        // 
+        // 		console.log(index3); // 15
         var index = 0;
         for (var i = 0; i < this.dimensions.length - 1; i++) {
             var tmp = vector[i];
@@ -301,6 +351,7 @@ var SparseMatrixBase = (function () {
         index += vector[this.dimensions.length - 1];
         return index;
     };
+    /** Merge matrix into this matrix */
     SparseMatrixBase.prototype.mergeFrom = function (matrix, overwrite) {
         if (overwrite === void 0) { overwrite = false; }
         if (this.getSign() !== matrix.getSign()) {
@@ -315,9 +366,11 @@ var SparseMatrixBase = (function () {
             var mergeVal = matrix.get(i);
             if (mergeVal === undefined || mergeVal === null)
                 continue;
+            // Set value
             this.set(i, matrix.get(i));
         }
     };
+    /** Get matrix signature */
     SparseMatrixBase.prototype.getSign = function () {
         var sign = '';
         sign += this.dimensions.length;

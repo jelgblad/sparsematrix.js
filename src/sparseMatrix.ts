@@ -11,7 +11,7 @@ export class SparseMatrix extends SparseMatrixBase {
     }
 
 
-
+    /** Get value */
     public get(vector: number[] | number, copyObject: boolean = false): any {
 
         var index: number;
@@ -42,7 +42,10 @@ export class SparseMatrix extends SparseMatrixBase {
 
 
 
-    // Get value as number if undefined
+    /**
+    * Get value as number
+    * undefined is returned as 0 
+    */
     public getAsNumber(vector: number[] | number): any {
 
         var data = this.get(vector);
@@ -56,7 +59,7 @@ export class SparseMatrix extends SparseMatrixBase {
 
 
 
-    // Set value
+    /** Set value */
     public set(vector: number[] | number, value: any) {
 
         var index: number;
@@ -87,7 +90,7 @@ export class SparseMatrix extends SparseMatrixBase {
 
 
 
-    // Clear matrix
+    /** Clear all values */
     public clear(): any {
 
         this._data = [];

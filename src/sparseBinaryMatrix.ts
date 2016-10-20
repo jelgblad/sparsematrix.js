@@ -11,7 +11,7 @@ export class SparseBinaryMatrix extends SparseMatrixBase {
     }
 
 
-
+    /** Get value */
     public get(vector: number[] | number): boolean {
 
         var index: number;
@@ -41,8 +41,7 @@ export class SparseBinaryMatrix extends SparseMatrixBase {
     }
 
 
-
-    // Set value
+    /** Set value */
     public set(vector: number[] | number, value: boolean | number) {
 
         var index: number;
@@ -76,8 +75,7 @@ export class SparseBinaryMatrix extends SparseMatrixBase {
     }
 
 
-
-    // Merge array into this array
+    /** Merge matrix into this matrix */
     public mergeFrom(matrix: SparseBinaryMatrix): any {
 
         if (this.getSign() !== matrix.getSign()) {
@@ -93,14 +91,13 @@ export class SparseBinaryMatrix extends SparseMatrixBase {
     }
 
 
-
+    /** Get indices of on 'bits' */
     public getIndices(): number[] {
         return this._data;
     }
 
 
-
-    // Clear matrix
+    /** Clear all values */
     public clear(): any {
 
         this._data = [];

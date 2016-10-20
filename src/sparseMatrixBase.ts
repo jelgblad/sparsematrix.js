@@ -1,7 +1,7 @@
 /** SparseMatrixBase */
 export abstract class SparseMatrixBase {
 
-    /*
+    /**
 	* dimensions				Array representing each dimension size
 	*/
     constructor(private dimensions: number[]) {
@@ -20,7 +20,7 @@ export abstract class SparseMatrixBase {
     }
 
 
-
+    /** Get total number of available values */
     public getSize(): number {
 
         var size = this.dimensions[0];
@@ -33,8 +33,7 @@ export abstract class SparseMatrixBase {
     }
 
 
-
-    // Get coordinates from data index
+    /** Get coordinates from data index */
     public getCoordinates(index: number): number[] {
 
         // Verify index
@@ -64,8 +63,7 @@ export abstract class SparseMatrixBase {
     }
 
 
-
-    // Get data index from coordinates
+    /** Get data index from coordinates */
     public getIndex(vector: number[]): number {
 
         // Verify vector
@@ -116,10 +114,9 @@ export abstract class SparseMatrixBase {
     }
 
 
-
-    // Merge array into this array
+    /** Merge matrix into this matrix */
     public mergeFrom(matrix: SparseMatrixBase, overwrite: boolean = false): any {
-        
+
         if (this.getSign() !== matrix.getSign()) {
             throw new Error('SparseMatrix: ' + 'Can\'t merge matrices with different signatures');
         }
@@ -141,7 +138,7 @@ export abstract class SparseMatrixBase {
     }
 
 
-
+    /** Get matrix signature */
     public getSign(): string {
 
         var sign: string = '';
@@ -162,13 +159,12 @@ export abstract class SparseMatrixBase {
     }
 
 
-
-    // Get value
+    /** Get value */
     public abstract get(vector: number[] | number): any;
 
-    // Set value
+    /** Set value */
     public abstract set(vector: number[] | number, value: any): any;
 
-    // Clear
+    /** Clear all values */
     public abstract clear(): any;
 }
