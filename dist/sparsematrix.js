@@ -78,11 +78,28 @@ _require.def( "module.js", function( _require, exports, module, global ){
 var sparseMatrix = _require( "src\\sparseMatrix.js" );
 var sparseBinaryMatrix = _require( "src\\sparseBinaryMatrix.js" );
 
-window.sparsematrix = {
+// window.sparsematrix = {
+//     sparseMatrix: sparseMatrix.SparseMatrix,
+//     sparseBinaryMatrix: sparseBinaryMatrix.SparseBinaryMatrix,
+//     sparseMathMatrix: sparseBinaryMatrix.SparseMathMatrix
+// };
+
+var sparsematrix = {
     sparseMatrix: sparseMatrix.SparseMatrix,
     sparseBinaryMatrix: sparseBinaryMatrix.SparseBinaryMatrix,
     sparseMathMatrix: sparseBinaryMatrix.SparseMathMatrix
 };
+
+if (typeof window === 'undefined' && typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+        exports = module.exports = sparsematrix;
+    }
+    exports.sparsematrix = sparsematrix;
+}
+else {
+    window.sparsematrix = sparsematrix;
+}
+  module.exports = exports;
 
   return module;
 });
