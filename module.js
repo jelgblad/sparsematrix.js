@@ -4,5 +4,6 @@ var sparseBinaryMatrix = require('./src/sparseBinaryMatrix');
 
 window.sparsematrix = {
     sparseMatrix: sparseMatrix.SparseMatrix,
-    sparseBinaryMatrix: sparseBinaryMatrix.SparseBinaryMatrix
+    sparseBinaryMatrix: sparseBinaryMatrix.SparseBinaryMatrix,
+    sparseMathMatrix: sparseBinaryMatrix.SparseMathMatrix
 };

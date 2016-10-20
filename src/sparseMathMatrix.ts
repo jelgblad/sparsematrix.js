@@ -1,7 +1,7 @@
 import { SparseMatrixBase } from './sparseMatrixBase';
 
-/** SparseMatrix */
-export class SparseMatrix extends SparseMatrixBase {
+/** SparseMathMatrix */
+export class SparseMathMatrix extends SparseMatrixBase {
 
     // Store data on this object
     private _data: any = {};
@@ -12,7 +12,7 @@ export class SparseMatrix extends SparseMatrixBase {
 
 
     /** Get value */
-    public get(vector: number[] | number, copyObject: boolean = false): any {
+    public get(vector: number[] | number): any {
 
         var index: number;
 
@@ -32,35 +32,24 @@ export class SparseMatrix extends SparseMatrixBase {
 
         var data = this._data[index.toString()];
 
-        // Copy if object
-        if (typeof data === 'object' && copyObject) {
-            data = JSON.parse(JSON.stringify(data));
+        if (data === undefined) {
+            data = 0;
         }
 
         return data;
     }
 
 
+    /** Set value */
+    public set(vector: number[] | number, value: number) {
 
-    /**
-    * Get value as number
-    * undefined is returned as 0 
-    */
-    public getAsNumber(vector: number[] | number): any {
-
-        var data = this.get(vector);
-
-        if (data === undefined) {
-            data = 0;
+        function isNumeric(n: any) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
         }
 
-        return data;
-    };
-
-
-
-    /** Set value */
-    public set(vector: number[] | number, value: any) {
+        if(!isNumeric(value)){
+            throw new RangeError('SparseMatrix: ' + 'Value is not a number');
+        }
 
         var index: number;
 
@@ -78,9 +67,8 @@ export class SparseMatrix extends SparseMatrixBase {
             }
         }
 
-        // Removes data on index if value is false, 0, null or undefined
-        if (value === false || value === 0 || value === null || undefined) {
-            // _data.splice(index, 1);
+        // Removes data on index if value is 0, null or undefined
+        if (value === 0 || value === null || undefined) {
             delete this._data[index.toString()];
         }
         else {

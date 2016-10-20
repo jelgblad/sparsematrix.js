@@ -80,96 +80,9 @@ var sparseBinaryMatrix = _require( "src\\sparseBinaryMatrix.js" );
 
 window.sparsematrix = {
     sparseMatrix: sparseMatrix.SparseMatrix,
-    sparseBinaryMatrix: sparseBinaryMatrix.SparseBinaryMatrix
+    sparseBinaryMatrix: sparseBinaryMatrix.SparseBinaryMatrix,
+    sparseMathMatrix: sparseBinaryMatrix.SparseMathMatrix
 };
-
-  return module;
-});
-
-_require.def( "src\\sparseMatrix.js", function( _require, exports, module, global ){
-"use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var sparseMatrixBase_1 = _require( "src\\sparseMatrixBase.js" );
-/** SparseMatrix */
-var SparseMatrix = (function (_super) {
-    __extends(SparseMatrix, _super);
-    function SparseMatrix(dimensions) {
-        _super.call(this, dimensions);
-        // Store data on this object
-        this._data = {};
-    }
-    /** Get value */
-    SparseMatrix.prototype.get = function (vector, copyObject) {
-        if (copyObject === void 0) { copyObject = false; }
-        var index;
-        // Check if vector array
-        if (Array.isArray(vector)) {
-            index = this.getIndex(vector);
-        }
-        else {
-            index = vector;
-            // Verify index
-            if (index >= this.getSize() || index < 0) {
-                throw new RangeError('SparseMatrix: ' + 'Index is out of range');
-            }
-        }
-        var data = this._data[index.toString()];
-        // Copy if object
-        if (typeof data === 'object' && copyObject) {
-            data = JSON.parse(JSON.stringify(data));
-        }
-        return data;
-    };
-    /**
-    * Get value as number
-    * undefined is returned as 0
-    */
-    SparseMatrix.prototype.getAsNumber = function (vector) {
-        var data = this.get(vector);
-        if (data === undefined) {
-            data = 0;
-        }
-        return data;
-    };
-    ;
-    /** Set value */
-    SparseMatrix.prototype.set = function (vector, value) {
-        var index;
-        // Check if vector array
-        if (Array.isArray(vector)) {
-            index = this.getIndex(vector);
-        }
-        else {
-            index = vector;
-            // Verify index
-            if (index >= this.getSize() || index < 0) {
-                throw new RangeError('SparseMatrix: ' + 'Index is out of range');
-            }
-        }
-        // Removes data on index if value is false, 0, null or undefined
-        if (value === false || value === 0 || value === null || undefined) {
-            // _data.splice(index, 1);
-            delete this._data[index.toString()];
-        }
-        else {
-            this._data[index.toString()] = value;
-        }
-    };
-    /** Clear all values */
-    SparseMatrix.prototype.clear = function () {
-        this._data = [];
-    };
-    ;
-    return SparseMatrix;
-}(sparseMatrixBase_1.SparseMatrixBase));
-exports.SparseMatrix = SparseMatrix;
-//# sourceMappingURL=sparseMatrix.js.map
-  module.exports = exports;
-
 
   return module;
 });
@@ -261,6 +174,94 @@ var SparseBinaryMatrix = (function (_super) {
 }(sparseMatrixBase_1.SparseMatrixBase));
 exports.SparseBinaryMatrix = SparseBinaryMatrix;
 //# sourceMappingURL=sparseBinaryMatrix.js.map
+  module.exports = exports;
+
+
+  return module;
+});
+
+_require.def( "src\\sparseMatrix.js", function( _require, exports, module, global ){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var sparseMatrixBase_1 = _require( "src\\sparseMatrixBase.js" );
+/** SparseMatrix */
+var SparseMatrix = (function (_super) {
+    __extends(SparseMatrix, _super);
+    function SparseMatrix(dimensions) {
+        _super.call(this, dimensions);
+        // Store data on this object
+        this._data = {};
+    }
+    /** Get value */
+    SparseMatrix.prototype.get = function (vector, copyObject) {
+        if (copyObject === void 0) { copyObject = false; }
+        var index;
+        // Check if vector array
+        if (Array.isArray(vector)) {
+            index = this.getIndex(vector);
+        }
+        else {
+            index = vector;
+            // Verify index
+            if (index >= this.getSize() || index < 0) {
+                throw new RangeError('SparseMatrix: ' + 'Index is out of range');
+            }
+        }
+        var data = this._data[index.toString()];
+        // Copy if object
+        if (typeof data === 'object' && copyObject) {
+            data = JSON.parse(JSON.stringify(data));
+        }
+        return data;
+    };
+    /**
+    * Get value as number
+    * undefined is returned as 0
+    */
+    SparseMatrix.prototype.getAsNumber = function (vector) {
+        var data = this.get(vector);
+        if (data === undefined) {
+            data = 0;
+        }
+        return data;
+    };
+    ;
+    /** Set value */
+    SparseMatrix.prototype.set = function (vector, value) {
+        var index;
+        // Check if vector array
+        if (Array.isArray(vector)) {
+            index = this.getIndex(vector);
+        }
+        else {
+            index = vector;
+            // Verify index
+            if (index >= this.getSize() || index < 0) {
+                throw new RangeError('SparseMatrix: ' + 'Index is out of range');
+            }
+        }
+        // Removes data on index if value is false, 0, null or undefined
+        if (value === false || value === 0 || value === null || undefined) {
+            // _data.splice(index, 1);
+            delete this._data[index.toString()];
+        }
+        else {
+            this._data[index.toString()] = value;
+        }
+    };
+    /** Clear all values */
+    SparseMatrix.prototype.clear = function () {
+        this._data = {};
+    };
+    ;
+    return SparseMatrix;
+}(sparseMatrixBase_1.SparseMatrixBase));
+exports.SparseMatrix = SparseMatrix;
+//# sourceMappingURL=sparseMatrix.js.map
   module.exports = exports;
 
 
