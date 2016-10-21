@@ -7,42 +7,6 @@ var expect = require('chai').expect;
 import { SparseMathMatrix } from '../src/sparseMathMatrix';
 
 describe('SparseMathMatrix', function () {
-    describe('.getIndex()', function () {
-
-        var matrix2d = new SparseMathMatrix([4, 8]);
-
-        it('should return expected index', function () {
-            expect(matrix2d.getIndex([1, 1])).to.equal(9);
-        });
-    });
-
-    describe('.getCoordinates()', function () {
-
-        var matrix = new SparseMathMatrix([3, 7, 5]);
-
-        it('should return expected coordinates', function () {
-            for (var i = 0; i < matrix.getSize(); i++) {
-                var coords = matrix.getCoordinates(i);
-                var index = matrix.getIndex(coords);
-
-                expect(index).to.equal(i);
-            }
-        });
-    });
-
-    describe('.getSize()', function () {
-
-        var matrix2d = new SparseMathMatrix([4, 8]);
-        var matrix3d = new SparseMathMatrix([4, 8, 16]);
-        var matrix4d = new SparseMathMatrix([4, 8, 16, 32]);
-
-        it('should return expected size', function () {
-            expect(matrix2d.getSize()).to.equal(32);
-            expect(matrix3d.getSize()).to.equal(512);
-            expect(matrix4d.getSize()).to.equal(16384);
-        });
-    });
-
     describe('.get(vector)', function () {
 
         var matrix = new SparseMathMatrix([8, 8]);
@@ -160,6 +124,30 @@ describe('SparseMathMatrix', function () {
     //         expect(matrix3.get([0, 1])).to.not.equal(2);
     //         expect(matrix3.get([1, 0])).to.equal(3);
     //         expect(matrix3.get([0, 1])).to.equal(4);
+    //     });
+    // });
+
+    // describe('.addFrom()', function () {
+
+    //     var matrix1 = new SparseMathMatrix([8, 8]);
+    //     var matrix2 = new SparseMathMatrix([8, 8]);
+
+    //     matrix1.set([0, 0], 0);
+    //     matrix1.set([1, 1], 4);
+    //     matrix1.set([1, 2], -5);
+
+    //     matrix2.set([0, 0], 8);
+    //     matrix2.set([0, 1], 6);
+    //     matrix2.set([1, 1], 6);
+    //     matrix2.set([1, 2], 5);
+
+    //     matrix1.addFrom(matrix2);
+
+    //     it('should add values from matrix(arg) into matrix(this)', function () {
+    //         expect(matrix1.get([0, 0])).to.equal(8);
+    //         expect(matrix1.get([0, 1])).to.equal(6);
+    //         expect(matrix1.get([1, 1])).to.equal(10);
+    //         expect(matrix1.get([1, 2])).to.equal(0);
     //     });
     // });
 });

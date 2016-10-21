@@ -1,10 +1,7 @@
-import { SparseMatrixBase } from './sparseMatrixBase';
+import { SparseMatrix } from './sparseMatrix';
 
 /** SparseMathMatrix */
-export class SparseMathMatrix extends SparseMatrixBase {
-
-    // Store data on this object
-    private _data: any = {};
+export class SparseMathMatrix extends SparseMatrix {
 
     constructor(dimensions: number[]) {
         super(dimensions);
@@ -14,29 +11,31 @@ export class SparseMathMatrix extends SparseMatrixBase {
     /** Get value */
     public get(vector: number[] | number): any {
 
-        var index: number;
+        // var index: number;
 
-        // Check if vector array
-        if (Array.isArray(vector)) {
-            index = this.getIndex(vector);
-        }
-        else {
+        // // Check if vector array
+        // if (Array.isArray(vector)) {
+        //     index = this.getIndex(vector);
+        // }
+        // else {
 
-            index = vector;
+        //     index = vector;
 
-            // Verify index
-            if (index >= this.getSize() || index < 0) {
-                throw new RangeError('SparseMatrix: ' + 'Index is out of range');
-            }
-        }
+        //     // Verify index
+        //     if (index >= this.getSize() || index < 0) {
+        //         throw new RangeError('SparseMatrix: ' + 'Index is out of range');
+        //     }
+        // }
 
-        var data = this._data[index.toString()];
+        // var data = this._data[index.toString()];
 
-        if (data === undefined) {
-            data = 0;
-        }
+        // if (data === undefined) {
+        //     data = 0;
+        // }
 
-        return data;
+        // return data;
+
+        return super.getAsNumber(vector);
     }
 
 
@@ -47,40 +46,41 @@ export class SparseMathMatrix extends SparseMatrixBase {
             return !isNaN(parseFloat(n)) && isFinite(n);
         }
 
-        if(!isNumeric(value)){
+        if (!isNumeric(value)) {
             throw new RangeError('SparseMatrix: ' + 'Value is not a number');
         }
 
-        var index: number;
+        return super.set(vector, value);
 
-        // Check if vector array
-        if (Array.isArray(vector)) {
-            index = this.getIndex(vector);
-        }
-        else {
+        // var index: number;
 
-            index = vector;
+        // // Check if vector array
+        // if (Array.isArray(vector)) {
+        //     index = this.getIndex(vector);
+        // }
+        // else {
 
-            // Verify index
-            if (index >= this.getSize() || index < 0) {
-                throw new RangeError('SparseMatrix: ' + 'Index is out of range');
-            }
-        }
+        //     index = vector;
 
-        // Removes data on index if value is 0, null or undefined
-        if (value === 0 || value === null || undefined) {
-            delete this._data[index.toString()];
-        }
-        else {
-            this._data[index.toString()] = value;
-        }
+        //     // Verify index
+        //     if (index >= this.getSize() || index < 0) {
+        //         throw new RangeError('SparseMatrix: ' + 'Index is out of range');
+        //     }
+        // }
+
+        // // Removes data on index if value is 0, null or undefined
+        // if (value === 0 || value === null || undefined) {
+        //     delete this._data[index.toString()];
+        // }
+        // else {
+        //     this._data[index.toString()] = value;
+        // }
     }
 
 
+    /** Add from */
+    public addFrom(matrix: SparseMathMatrix) {
 
-    /** Clear all values */
-    public clear(): any {
 
-        this._data = {};
-    };
+    }
 }
