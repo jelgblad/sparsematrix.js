@@ -14,6 +14,7 @@ class SparseMatrixBase_Mock extends SparseMatrixBase {
 
     public get() { }
     public set() { }
+    public getIndices() { return []; }
     public clear() { }
 }
 

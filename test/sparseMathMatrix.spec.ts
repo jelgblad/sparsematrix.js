@@ -127,27 +127,51 @@ describe('SparseMathMatrix', function () {
     //     });
     // });
 
-    // describe('.addFrom()', function () {
+    describe('.addFrom()', function () {
 
-    //     var matrix1 = new SparseMathMatrix([8, 8]);
-    //     var matrix2 = new SparseMathMatrix([8, 8]);
+        var matrix1 = new SparseMathMatrix([8, 8]);
+        var matrix2 = new SparseMathMatrix([8, 8]);
 
-    //     matrix1.set([0, 0], 0);
-    //     matrix1.set([1, 1], 4);
-    //     matrix1.set([1, 2], -5);
+        matrix1.set([0, 0], 0);
+        matrix1.set([1, 1], 4);
+        matrix1.set([1, 2], -5);
 
-    //     matrix2.set([0, 0], 8);
-    //     matrix2.set([0, 1], 6);
-    //     matrix2.set([1, 1], 6);
-    //     matrix2.set([1, 2], 5);
+        matrix2.set([0, 0], 8);
+        matrix2.set([0, 1], 6);
+        matrix2.set([1, 1], 6);
+        matrix2.set([1, 2], 6);
 
-    //     matrix1.addFrom(matrix2);
+        matrix1.addFrom(matrix2);
 
-    //     it('should add values from matrix(arg) into matrix(this)', function () {
-    //         expect(matrix1.get([0, 0])).to.equal(8);
-    //         expect(matrix1.get([0, 1])).to.equal(6);
-    //         expect(matrix1.get([1, 1])).to.equal(10);
-    //         expect(matrix1.get([1, 2])).to.equal(0);
-    //     });
-    // });
+        it('should add values from matrix(arg) into matrix(this)', function () {
+            expect(matrix1.get([0, 0])).to.equal(8);
+            expect(matrix1.get([0, 1])).to.equal(6);
+            expect(matrix1.get([1, 1])).to.equal(10);
+            expect(matrix1.get([1, 2])).to.equal(1);
+        });
+    });
+
+    describe('.subtractFrom()', function () {
+
+        var matrix1 = new SparseMathMatrix([8, 8]);
+        var matrix2 = new SparseMathMatrix([8, 8]);
+
+        matrix1.set([0, 0], 8);
+        matrix1.set([1, 1], 4);
+        matrix1.set([1, 2], 20);
+
+        matrix2.set([0, 0], 4);
+        matrix2.set([0, 1], 6);
+        matrix2.set([1, 1], 2);
+        matrix2.set([1, 2], 5);
+
+        matrix1.subtractFrom(matrix2);
+
+        it('should subtract values from matrix(arg) to values in matrix(this)', function () {
+            expect(matrix1.get([0, 0])).to.equal(4);
+            expect(matrix1.get([0, 1])).to.equal(-6);
+            expect(matrix1.get([1, 1])).to.equal(2);
+            expect(matrix1.get([1, 2])).to.equal(15);
+        });
+    });
 });

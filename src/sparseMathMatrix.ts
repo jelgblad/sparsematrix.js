@@ -81,6 +81,30 @@ export class SparseMathMatrix extends SparseMatrix {
     /** Add from */
     public addFrom(matrix: SparseMathMatrix) {
 
+        var otherIndices = matrix.getIndices();
 
+        for (var i = 0; i < otherIndices.length; i++) {
+
+            var dataIndex = otherIndices[i];
+
+            var newValue = this.get(dataIndex) + matrix.get(dataIndex);
+
+            this.set(dataIndex, newValue);
+        }
+    }
+
+    /** Subtract from */
+    public subtractFrom(matrix: SparseMathMatrix) {
+
+        var otherIndices = matrix.getIndices();
+
+        for (var i = 0; i < otherIndices.length; i++) {
+
+            var dataIndex = otherIndices[i];
+
+            var newValue = this.get(dataIndex) - matrix.get(dataIndex);
+
+            this.set(dataIndex, newValue);
+        }
     }
 }

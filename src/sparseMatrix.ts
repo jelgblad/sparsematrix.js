@@ -94,6 +94,11 @@ export class SparseMatrix extends SparseMatrixBase {
     }
 
 
+    /** Get indices of all values */
+    public getIndices(): number[] {
+        return Object.keys(this._data).map(x => { return parseInt(x);});
+    }
+
 
     /** Clear all values */
     public clear(): any {

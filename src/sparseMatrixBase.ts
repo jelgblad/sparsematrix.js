@@ -165,6 +165,9 @@ export abstract class SparseMatrixBase {
     /** Set value */
     public abstract set(vector: number[] | number, value: any): any;
 
+    /** Get indices of values */
+    public abstract getIndices(): number[];
+
     /** Clear all values */
     public abstract clear(): any;
 }
